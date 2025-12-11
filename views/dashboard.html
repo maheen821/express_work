@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/">Dashboard</a>
+    <a href="/users">Users</a>
+    <a href="/tasks">Pending Tasks</a>
+    <a href="/orders">Orders</a>
+    <a href="/reports">Reports</a>
+    <a href="#">Settings</a>
+</div>
+
+<div class="main">
+    <h1>Welcome, Admin 👑</h1>
+
+    <!-- Dashboard Cards -->
+    <div class="cards">
+        <div class="card">
+            <h3>Total Users</h3>
+            <p id="total-users">0</p>
+        </div>
+        <div class="card">
+            <h3>Orders Today</h3>
+            <p id="total-orders">0</p>
+        </div>
+        <div class="card">
+            <h3>Revenue</h3>
+            <p id="total-revenue">$0</p>
+        </div>
+        <div class="card">
+            <h3>Pending Tasks</h3>
+            <p id="total-tasks">0</p>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Charts -->
+    <div class="charts" style="display:flex; gap:30px; flex-wrap: wrap;">
+        <div style="flex:1; min-width:300px;">
+            <h2>Summary Pie Chart</h2>
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div style="flex:1; min-width:300px;">
+            <h2>Orders & Tasks Bar Chart</h2>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+const totalUsers = document.getElementById('total-users');
+const totalOrders = document.getElementById('total-orders');
+const totalRevenue = document.getElementById('total-revenue');
+const totalTasks = document.getElementById('total-tasks');
+
+let pieChart, barChart;
+
+async function loadDashboard() {
+    const users = await fetch('/api/users').then(res => res.json());
+    const orders = await fetch('/api/orders').then(res => res.json());
+    const tasks = await fetch('/api/tasks').then(res => res.json());
+
+    const pendingTasks = tasks.filter(t => t.status === "Pending");
+
+    // Update cards
+    totalUsers.textContent = users.length;
+    totalOrders.textContent = orders.length;
+    totalRevenue.textContent = `$${orders.reduce((a,o)=>a+Number(o.amount),0)}`;
+    totalTasks.textContent = pendingTasks.length;
+
+    // Pie Chart
+    const pieData = {
+        labels: ['Users', 'Orders', 'Pending Tasks'],
+        datasets: [{
+            data: [users.length, orders.length, pendingTasks.length],
+            backgroundColor: ['#6a0dad','#ff6384','#36a2eb'],
+            borderWidth: 1
+        }]
+    };
+    if(pieChart) pieChart.destroy();
+    pieChart = new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: pieData
+    });
+
+    // Bar Chart
+    const barData = {
+        labels: orders.map(o => o.item || `Order ${o.id}`),
+        datasets: [
+            {
+                label: 'Order Amount',
+                data: orders.map(o => o.amount),
+                backgroundColor: '#6a0dad'
+            }
+        ]
+    };
+    if(barChart) barChart.destroy();
+    barChart = new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: barData,
+        options: { responsive:true, scales:{ y:{ beginAtZero:true } } }
+    });
+}
+
+// Initial load
+loadDashboard();
+</script>
+</body>
+</html>

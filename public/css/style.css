@@ -1,0 +1,139 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f0f3f7, #dbe6f1);
+    color: #333;
+    transition: background 0.3s ease;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: linear-gradient(180deg, #2b2d42, #3c3f5c);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-right: 2px solid #8d99ae;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    color: #edf2f4;
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    color: #edf2f4;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+    background: #ef233c;
+    color: #fff;
+    transform: translateX(6px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    padding: 35px 45px;
+}
+
+.main h1 {
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    color: #2b2d42;
+}
+
+/* Dashboard Cards */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.card {
+    flex: 1 1 200px;
+    background: linear-gradient(145deg, #fff, #f7f9fb);
+    border-radius: 14px;
+    padding: 28px 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.07);
+    text-align: center;
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #2b2d42;
+}
+
+.card p {
+    font-size: 30px;
+    font-weight: 800;
+    color: #ef233c;
+}
+
+/* Charts */
+.charts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+.charts h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #2b2d42;
+}
+
+/* Canvas Styling */
+canvas {
+    background: linear-gradient(145deg, #fff, #f5f7fa);
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+/* Hover on canvas */
+canvas:hover {
+    transform: scale(1.02);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cards {
+        flex-direction: column;
+    }
+    .charts {
+        flex-direction: column;
+    }
+}

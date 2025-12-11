@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": 1765472726233,
+      "name": "maheen"
+    },
+    {
+      "id": 1765472771373,
+      "name": "sanan"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1765472742428,
+      "item": "blanket",
+      "amount": 10000
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1765472813623,
+      "task": "playon",
+      "status": "Pending"
+    },
+    {
+      "id": 1765473052189,
+      "task": "wash",
+      "status": "Pending"
+    },
+    {
+      "id": 1765473059274,
+      "task": "wash blamke",
+      "status": "Pending"
+    }
+  ]
+}

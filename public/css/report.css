@@ -1,0 +1,142 @@
+/* General Reset */
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f0f3f7;
+    color: #333;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #2b2d42;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-right: 2px solid black;
+}
+
+.sidebar h2 {
+    color: #edf2f4;
+    font-size: 26px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar a {
+    color: #edf2f4;
+    text-decoration: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.sidebar a:hover {
+    background: #8d99ae;
+    color: #2b2d42;
+    transform: translateX(5px);
+}
+
+/* Main Content */
+.main {
+    flex: 1;
+    padding: 30px 40px;
+}
+
+.main h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #2b2d42;
+}
+
+
+/* Table Section Titles */
+h2 {
+    margin: 20px 0 15px 0;
+    color: black;
+    font-size: 22px;
+    border-left: 5px solid gray;
+    padding-left: 10px;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 10px darkolivegreen;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+table:hover {
+    transform: scale(1.01);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+thead {
+    background: black; /* soft red header */
+    color: #fff;
+}
+
+thead th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    font-weight: 500;
+    color: black;
+}
+
+tbody tr:nth-child(even) {
+    background: #f6f6f6;
+}
+
+tbody tr:hover {
+    background: #ffeaea; /* soft hover highlight */
+}
+
+/* Buttons */
+button {
+    padding: 7px 14px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+button:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
+}
+
+button:nth-child(1) { /* Edit button */
+    background: #1890ff; /* subtle blue */
+    color: #fff;
+}
+
+button:nth-child(2) { /* Delete button */
+    background: red; /* soft red */
+    color: #fff;
+}

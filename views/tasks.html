@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pending Tasks</title>
+<link rel="stylesheet" href="/css/task.css">
+</head>
+<body>
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/">Dashboard</a>
+    <a href="/users">Users</a>
+    <a href="/orders">Orders</a>
+    <a href="/tasks">Pending Tasks</a>
+    <a href="/reports">Reports</a>
+    <a href="#">Settings</a>
+</div>
+
+<div class="main">
+    <h1>Pending Tasks Management</h1>
+
+    <div class="form-box">
+        <h2>Add Task</h2>
+        <form id="taskForm">
+            <input type="text" name="task" placeholder="Task Name" required>
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
+
+    <div class="table-box">
+        <h2>All Pending Tasks</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Task</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tasks-list">
+                <!-- Tasks will be dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const taskForm = document.getElementById('taskForm');
+const tasksList = document.getElementById('tasks-list');
+
+// Fetch all tasks from backend
+async function loadTasks() {
+    const res = await fetch('/api/tasks');
+    const data = await res.json();
+    tasksList.innerHTML = '';
+    data.forEach(task => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${task.id}</td><td>${task.task}</td><td>${task.status}</td>`;
+        tasksList.appendChild(tr);
+    });
+}
+
+// Add new task
+taskForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(taskForm);
+    const task = formData.get('task');
+
+    await fetch('/add-task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ task })
+    });
+
+    taskForm.reset();
+    loadTasks();
+});
+
+// Initial load
+loadTasks();
+</script>
+</body>
+</html>

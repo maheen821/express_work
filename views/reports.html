@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Reports</title>
+<link rel="stylesheet" href="/css/report.css">
+</head>
+<body>
+<div class="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/">Dashboard</a>
+    <a href="/users">Users</a>
+    <a href="/tasks">Pending Tasks</a>
+    <a href="/orders">Orders</a>
+    <a href="/reports">Reports</a>
+    <a href="#">Settings</a>
+</div>
+
+<div class="main">
+    <h1>Admin Reports</h1>
+
+    <!-- Users Table -->
+    <h2>Users</h2>
+    <table id="users-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Orders Table -->
+    <h2>Orders</h2>
+    <table id="orders-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Item</th>
+                <th>Amount</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Tasks Table -->
+    <h2>Tasks</h2>
+    <table id="tasks-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+async function loadReports() {
+    const users = await fetch('/api/users').then(r => r.json());
+    const orders = await fetch('/api/orders').then(r => r.json());
+    const tasks = await fetch('/api/tasks').then(r => r.json());
+
+    // Users Table
+    const usersTbody = document.querySelector('#users-table tbody');
+    usersTbody.innerHTML = '';
+    users.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${u.id}</td>
+            <td>${u.name}</td>
+            <td>
+                <button onclick="updateUser(${u.id})">Edit</button>
+                <button onclick="deleteUser(${u.id})">Delete</button>
+            </td>
+        `;
+        usersTbody.appendChild(tr);
+    });
+
+    // Orders Table
+    const ordersTbody = document.querySelector('#orders-table tbody');
+    ordersTbody.innerHTML = '';
+    orders.forEach(o => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${o.id}</td>
+            <td>${o.item || '-'}</td>
+            <td>${o.amount}</td>
+            <td>
+                <button onclick="updateOrder(${o.id})">Edit</button>
+                <button onclick="deleteOrder(${o.id})">Delete</button>
+            </td>
+        `;
+        ordersTbody.appendChild(tr);
+    });
+
+    // Tasks Table
+    const tasksTbody = document.querySelector('#tasks-table tbody');
+    tasksTbody.innerHTML = '';
+    tasks.forEach(t => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${t.id}</td>
+            <td>${t.task}</td>
+            <td>${t.status}</td>
+            <td>
+                <button onclick="updateTask(${t.id})">Edit</button>
+                <button onclick="deleteTask(${t.id})">Delete</button>
+            </td>
+        `;
+        tasksTbody.appendChild(tr);
+    });
+}
+
+// CRUD functions
+async function deleteUser(id){ await fetch(`/delete-user/${id}`, { method:'DELETE' }); loadReports(); }
+async function deleteOrder(id){ await fetch(`/delete-order/${id}`, { method:'DELETE' }); loadReports(); }
+async function deleteTask(id){ await fetch(`/delete-task/${id}`, { method:'DELETE' }); loadReports(); }
+
+async function updateUser(id){
+    const newName = prompt('New Name:');
+    if(newName) await fetch(`/update-user/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name:newName}) });
+    loadReports();
+}
+async function updateOrder(id){
+    const newItem = prompt('New Item:');
+    const newAmount = prompt('New Amount:');
+    if(newItem || newAmount) await fetch(`/update-order/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({item:newItem, amount:Number(newAmount)}) });
+    loadReports();
+}
+async function updateTask(id){
+    const newTask = prompt('New Task Name:');
+    const newStatus = prompt('New Status (Pending/Done):');
+    if(newTask || newStatus) await fetch(`/update-task/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({task:newTask, status:newStatus}) });
+    loadReports();
+}
+
+// Initial load
+loadReports();
+</script>
+</body>
+</html>
